@@ -1,14 +1,14 @@
 # Made by @mellowestmel on Discord
-# Fisch MiguRod Counter Rebind v1.0.0
+# Fisch MiguRod Counter Rebind v1.1.0
 
 # NOTES:
 # YOU MUST SET YOUR MIGUROD COUNTER-ATTACK KEYBIND TO CTRL IN THE FISCH SETTINGS FOR THIS TO WORK
 
 # Setup
-# make sure you have pynput and python installed.
+# Make sure you have pynput and python installed.
 
 # python install: https://www.python.org/downloads/
-# pynput install, run in the terminal: pip install pynput
+# pynput install: run the following in terminal: pip install pynput
 
 # Imports
 from pynput import mouse as Mouse, keyboard as Keyboard
@@ -30,43 +30,26 @@ CounterAttackKeybind = Mouse.Button.x1
 IsPressed = False
 
 # Controls the counter-attack state.
-def ToggleCounterAttack(override = None):
-    global IsPressed
-
-    if override is None: override = not IsPressed
-    if IsPressed == override: return
-
-    IsPressed = override
-
-    if IsPressed: KeyboardController.press(Keyboard.Key.ctrl)
-    else: KeyboardController.release(Keyboard.Key.ctrl)
+def ToggleCounterAttack():
+    KeyboardController.tap(Keyboard.Key.ctrl)
 
 
 # Handles keyboard input.
 def OnKeyboardPress(key):
     if isinstance(CounterAttackKeybind, Mouse.Button): return
     if key != CounterAttackKeybind: return
-    ToggleCounterAttack(True)
-
-
-def OnKeyboardRelease(key):
-    if isinstance(CounterAttackKeybind, Mouse.Button): return
-    if key != CounterAttackKeybind: return
-    ToggleCounterAttack(False)
-
+    ToggleCounterAttack()
 
 # Handles mouse input.
 def OnMousePress(_, __, button, pressed):
     if not isinstance(CounterAttackKeybind, Mouse.Button): return
-    if button != CounterAttackKeybind: return
-    ToggleCounterAttack(pressed)
+    if button != CounterAttackKeybind or not pressed: return
+    ToggleCounterAttack()
 
 
 # Listens for keyboard and mouse input.
 with Mouse.Listener(on_click = OnMousePress) as MouseListener:
     with Keyboard.Listener(
-        on_press = OnKeyboardPress,
-        on_release = OnKeyboardRelease
+        on_press = OnKeyboardPress
     ) as KeyboardListener:
-
         MouseListener.join(); KeyboardListener.join()

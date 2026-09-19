@@ -1,5 +1,5 @@
 # Made by @mellowestmel on Discord
-# Fisch MiguRod Counter Rebind
+# Fisch MiguRod Counter Rebind v1.0.0
 
 # NOTES:
 # YOU MUST SET YOUR MIGUROD COUNTER-ATTACK KEYBIND TO CTRL IN THE FISCH SETTINGS FOR THIS TO WORK
